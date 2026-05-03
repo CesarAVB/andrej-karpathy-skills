@@ -1,171 +1,171 @@
-# Karpathy-Inspired Claude Code Guidelines
+# Diretrizes para Claude Code Inspiradas em Karpathy
 
-> Check out my new project [Multica](https://github.com/multica-ai/multica) — an open-source platform for running and managing coding agents with reusable skills.
+> Conheça meu novo projeto [Multica](https://github.com/multica-ai/multica) — uma plataforma de código aberto para executar e gerenciar agentes de codificação com habilidades reutilizáveis.
 >
-> Follow me on X: [https://x.com/jiayuan_jy](https://x.com/jiayuan_jy)
+> Siga-me no X: [https://x.com/jiayuan_jy](https://x.com/jiayuan_jy)
 
-A single `CLAUDE.md` file to improve Claude Code behavior, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
+Um único arquivo `CLAUDE.md` para melhorar o comportamento do Claude Code, derivado das [observações de Andrej Karpathy](https://x.com/karpathy/status/2015883857489522876) sobre armadilhas de codificação com LLMs.
 
 English | [简体中文](./README.zh.md)
 
-## The Problems
+## Os Problemas
 
-From Andrej's post:
+Do post de Andrej:
 
-> "The models make wrong assumptions on your behalf and just run along with them without checking. They don't manage their confusion, don't seek clarifications, don't surface inconsistencies, don't present tradeoffs, don't push back when they should."
+> "Os modelos fazem suposições erradas em seu nome e simplesmente prosseguem sem verificar. Eles não gerenciam sua confusão, não buscam esclarecimentos, não expõem inconsistências, não apresentam tradeoffs, não resistem quando deveriam."
 
-> "They really like to overcomplicate code and APIs, bloat abstractions, don't clean up dead code... implement a bloated construction over 1000 lines when 100 would do."
+> "Eles realmente gostam de supercomplicar código e APIs, inflar abstrações, não limpam código morto... implementam uma construção inflada com mais de 1000 linhas quando 100 bastariam."
 
-> "They still sometimes change/remove comments and code they don't sufficiently understand as side effects, even if orthogonal to the task."
+> "Eles ainda às vezes alteram/removem comentários e código que não entendem suficientemente como efeitos colaterais, mesmo que sejam ortogonais à tarefa."
 
-## The Solution
+## A Solução
 
-Four principles in one file that directly address these issues:
+Quatro princípios em um arquivo que abordam diretamente esses problemas:
 
-| Principle | Addresses |
-|-----------|-----------|
-| **Think Before Coding** | Wrong assumptions, hidden confusion, missing tradeoffs |
-| **Simplicity First** | Overcomplication, bloated abstractions |
-| **Surgical Changes** | Orthogonal edits, touching code you shouldn't |
-| **Goal-Driven Execution** | Leverage through tests-first, verifiable success criteria |
+| Princípio | Aborda |
+|-----------|--------|
+| **Pense Antes de Codificar** | Suposições erradas, confusão oculta, tradeoffs ausentes |
+| **Simplicidade em Primeiro Lugar** | Supercomplicação, abstrações infladas |
+| **Alterações Cirúrgicas** | Edições ortogonais, tocar em código indevidamente |
+| **Execução Orientada a Objetivos** | Alavancagem via abordagem testes-primeiro, critérios de sucesso verificáveis |
 
-## The Four Principles in Detail
+## Os Quatro Princípios em Detalhe
 
-### 1. Think Before Coding
+### 1. Pense Antes de Codificar
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+**Não presuma. Não esconda confusão. Expôr os tradeoffs.**
 
-LLMs often pick an interpretation silently and run with it. This principle forces explicit reasoning:
+LLMs frequentemente escolhem uma interpretação em silêncio e seguem com ela. Este princípio força um raciocínio explícito:
 
-- **State assumptions explicitly** — If uncertain, ask rather than guess
-- **Present multiple interpretations** — Don't pick silently when ambiguity exists
-- **Push back when warranted** — If a simpler approach exists, say so
-- **Stop when confused** — Name what's unclear and ask for clarification
+- **Declare premissas explicitamente** — Se houver incerteza, pergunte em vez de adivinhar
+- **Apresente múltiplas interpretações** — Não escolha em silêncio quando houver ambiguidade
+- **Resista quando justificado** — Se existir uma abordagem mais simples, diga
+- **Pare quando confuso** — Nomeie o que está confuso e peça esclarecimento
 
-### 2. Simplicity First
+### 2. Simplicidade em Primeiro Lugar
 
-**Minimum code that solves the problem. Nothing speculative.**
+**Código mínimo que resolva o problema. Nada especulativo.**
 
-Combat the tendency toward overengineering:
+Combata a tendência ao superengenho:
 
-- No features beyond what was asked
-- No abstractions for single-use code
-- No "flexibility" or "configurability" that wasn't requested
-- No error handling for impossible scenarios
-- If 200 lines could be 50, rewrite it
+- Nenhum recurso além do que foi pedido
+- Nenhuma abstração para código de uso único
+- Nenhuma "flexibilidade" ou "configurabilidade" que não foi solicitada
+- Nenhum tratamento de erro para cenários impossíveis
+- Se 200 linhas pudessem ser 50, reescreva
 
-**The test:** Would a senior engineer say this is overcomplicated? If yes, simplify.
+**O teste:** Um engenheiro sênior diria que isso está supercomplicado? Se sim, simplifique.
 
-### 3. Surgical Changes
+### 3. Alterações Cirúrgicas
 
-**Touch only what you must. Clean up only your own mess.**
+**Toque apenas o que for necessário. Limpe apenas a sua própria bagunça.**
 
-When editing existing code:
+Ao editar código existente:
 
-- Don't "improve" adjacent code, comments, or formatting
-- Don't refactor things that aren't broken
-- Match existing style, even if you'd do it differently
-- If you notice unrelated dead code, mention it — don't delete it
+- Não "melhore" código adjacente, comentários ou formatação
+- Não refatore o que não está quebrado
+- Mantenha o estilo existente, mesmo que faria diferente
+- Se notar código morto não relacionado, mencione — não exclua
 
-When your changes create orphans:
+Quando suas alterações criarem órfãos:
 
-- Remove imports/variables/functions that YOUR changes made unused
-- Don't remove pre-existing dead code unless asked
+- Remova imports/variáveis/funções que SUAS alterações tornaram não utilizados
+- Não remova código morto pré-existente a menos que solicitado
 
-**The test:** Every changed line should trace directly to the user's request.
+**O teste:** Toda linha alterada deve estar diretamente ligada à solicitação do usuário.
 
-### 4. Goal-Driven Execution
+### 4. Execução Orientada a Objetivos
 
-**Define success criteria. Loop until verified.**
+**Defina critérios de sucesso. Itere até verificar.**
 
-Transform imperative tasks into verifiable goals:
+Transforme tarefas imperativas em objetivos verificáveis:
 
-| Instead of... | Transform to... |
-|--------------|-----------------|
-| "Add validation" | "Write tests for invalid inputs, then make them pass" |
-| "Fix the bug" | "Write a test that reproduces it, then make it pass" |
-| "Refactor X" | "Ensure tests pass before and after" |
+| Em vez de... | Transforme em... |
+|--------------|------------------|
+| "Adicionar validação" | "Escrever testes para entradas inválidas, depois fazê-los passar" |
+| "Corrigir o bug" | "Escrever um teste que o reproduza, depois fazê-lo passar" |
+| "Refatorar X" | "Garantir que os testes passem antes e depois" |
 
-For multi-step tasks, state a brief plan:
+Para tarefas de múltiplas etapas, apresente um plano breve:
 
 ```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
+1. [Etapa] → verificar: [verificação]
+2. [Etapa] → verificar: [verificação]
+3. [Etapa] → verificar: [verificação]
 ```
 
-Strong success criteria let the LLM loop independently. Weak criteria ("make it work") require constant clarification.
+Critérios de sucesso fortes permitem que o LLM itere de forma autônoma. Critérios fracos ("faça funcionar") exigem esclarecimento constante.
 
-## Install
+## Instalação
 
-**Option A: Claude Code Plugin (recommended)**
+**Opção A: Plugin do Claude Code (recomendado)**
 
-From within Claude Code, first add the marketplace:
+Dentro do Claude Code, primeiro adicione o marketplace:
 ```
 /plugin marketplace add forrestchang/andrej-karpathy-skills
 ```
 
-Then install the plugin:
+Depois instale o plugin:
 ```
 /plugin install andrej-karpathy-skills@karpathy-skills
 ```
 
-This installs the guidelines as a Claude Code plugin, making the skill available across all your projects.
+Isso instala as diretrizes como um plugin do Claude Code, tornando a habilidade disponível em todos os seus projetos.
 
-**Option B: CLAUDE.md (per-project)**
+**Opção B: CLAUDE.md (por projeto)**
 
-New project:
+Novo projeto:
 ```bash
 curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
 ```
 
-Existing project (append):
+Projeto existente (adicionar ao final):
 ```bash
 echo "" >> CLAUDE.md
 curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
 ```
 
-## Using with Cursor
+## Uso com Cursor
 
-This repository includes a committed Cursor project rule ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)) so the same guidelines apply when you open the project in Cursor. See **[CURSOR.md](CURSOR.md)** for setup, using the rule in other projects, and how this relates to Claude Code.
+Este repositório inclui uma regra de projeto do Cursor ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)) para que as mesmas diretrizes se apliquem ao abrir o projeto no Cursor. Veja **[CURSOR.md](CURSOR.md)** para configuração, uso da regra em outros projetos e como isso se relaciona com o Claude Code.
 
-## Key Insight
+## Percepção Fundamental
 
-From Andrej:
+De Andrej:
 
-> "LLMs are exceptionally good at looping until they meet specific goals... Don't tell it what to do, give it success criteria and watch it go."
+> "LLMs são excepcionalmente bons em iterar até atingirem objetivos específicos... Não diga a eles o que fazer, dê critérios de sucesso e observe-os agirem."
 
-The "Goal-Driven Execution" principle captures this: transform imperative instructions into declarative goals with verification loops.
+O princípio "Execução Orientada a Objetivos" captura isso: transforme instruções imperativas em objetivos declarativos com laços de verificação.
 
-## How to Know It's Working
+## Como Saber se Está Funcionando
 
-These guidelines are working if you see:
+Estas diretrizes estão funcionando se você notar:
 
-- **Fewer unnecessary changes in diffs** — Only requested changes appear
-- **Fewer rewrites due to overcomplication** — Code is simple the first time
-- **Clarifying questions come before implementation** — Not after mistakes
-- **Clean, minimal PRs** — No drive-by refactoring or "improvements"
+- **Menos alterações desnecessárias nos diffs** — Apenas as alterações solicitadas aparecem
+- **Menos reescritas por supercomplicação** — O código é simples logo de início
+- **Perguntas de esclarecimento surgem antes da implementação** — Não após os erros
+- **PRs limpos e mínimos** — Sem refatorações passageiras ou "melhorias"
 
-## Customization
+## Personalização
 
-These guidelines are designed to be merged with project-specific instructions. Add them to your existing `CLAUDE.md` or create a new one.
+Estas diretrizes foram projetadas para serem mescladas com instruções específicas do projeto. Adicione-as ao seu `CLAUDE.md` existente ou crie um novo.
 
-For project-specific rules, add sections like:
+Para regras específicas do projeto, adicione seções como:
 
 ```markdown
-## Project-Specific Guidelines
+## Diretrizes Específicas do Projeto
 
-- Use TypeScript strict mode
-- All API endpoints must have tests
-- Follow the existing error handling patterns in `src/utils/errors.ts`
+- Use o modo estrito do TypeScript
+- Todos os endpoints da API devem ter testes
+- Siga os padrões existentes de tratamento de erros em `src/utils/errors.ts`
 ```
 
-## Tradeoff Note
+## Nota sobre Tradeoffs
 
-These guidelines bias toward **caution over speed**. For trivial tasks (simple typo fixes, obvious one-liners), use judgment — not every change needs the full rigor.
+Estas diretrizes priorizam **cautela em detrimento de velocidade**. Para tarefas triviais (correções simples de erros de digitação, one-liners óbvios), use bom senso — nem toda alteração precisa do rigor completo.
 
-The goal is reducing costly mistakes on non-trivial work, not slowing down simple tasks.
+O objetivo é reduzir erros custosos em trabalho não trivial, não desacelerar tarefas simples.
 
-## License
+## Licença
 
 MIT

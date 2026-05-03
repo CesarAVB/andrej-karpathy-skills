@@ -1,65 +1,65 @@
 # CLAUDE.md
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+Diretrizes comportamentais para reduzir erros comuns de codificação com LLM. Mescle com instruções específicas do projeto conforme necessário.
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+**Compromisso:** Estas diretrizes priorizam cautela em detrimento de velocidade. Para tarefas triviais, use bom senso.
 
-## 1. Think Before Coding
+## 1. Pense Antes de Codificar
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+**Não presuma. Não esconda confusão. Expôr os tradeoffs.**
 
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
+Antes de implementar:
+- Declare suas premissas explicitamente. Se houver incerteza, pergunte.
+- Se existirem múltiplas interpretações, apresente-as — não escolha em silêncio.
+- Se existir uma abordagem mais simples, diga. Resista quando for justificado.
+- Se algo estiver confuso, pare. Nomeie o que está confuso. Pergunte.
 
-## 2. Simplicity First
+## 2. Simplicidade em Primeiro Lugar
 
-**Minimum code that solves the problem. Nothing speculative.**
+**Código mínimo que resolva o problema. Nada especulativo.**
 
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
+- Nenhum recurso além do que foi pedido.
+- Nenhuma abstração para código de uso único.
+- Nenhuma "flexibilidade" ou "configurabilidade" que não foi solicitada.
+- Nenhum tratamento de erro para cenários impossíveis.
+- Se você escrever 200 linhas e pudesse ser 50, reescreva.
 
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+Pergunte a si mesmo: "Um engenheiro sênior diria que isso está supercomplicado?" Se sim, simplifique.
 
-## 3. Surgical Changes
+## 3. Alterações Cirúrgicas
 
-**Touch only what you must. Clean up only your own mess.**
+**Toque apenas o que for necessário. Limpe apenas a sua própria bagunça.**
 
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
+Ao editar código existente:
+- Não "melhore" código adjacente, comentários ou formatação.
+- Não refatore o que não está quebrado.
+- Mantenha o estilo existente, mesmo que faria diferente.
+- Se notar código morto não relacionado, mencione — não exclua.
 
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
+Quando suas alterações criarem órfãos:
+- Remova imports/variáveis/funções que SUAS alterações tornaram não utilizados.
+- Não remova código morto pré-existente a menos que solicitado.
 
-The test: Every changed line should trace directly to the user's request.
+O teste: toda linha alterada deve estar diretamente ligada à solicitação do usuário.
 
-## 4. Goal-Driven Execution
+## 4. Execução Orientada a Objetivos
 
-**Define success criteria. Loop until verified.**
+**Defina critérios de sucesso. Itere até verificar.**
 
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
+Transforme tarefas em objetivos verificáveis:
+- "Adicionar validação" → "Escrever testes para entradas inválidas, depois fazê-los passar"
+- "Corrigir o bug" → "Escrever um teste que o reproduza, depois fazê-lo passar"
+- "Refatorar X" → "Garantir que os testes passem antes e depois"
 
-For multi-step tasks, state a brief plan:
+Para tarefas de múltiplas etapas, apresente um plano breve:
 ```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
+1. [Etapa] → verificar: [verificação]
+2. [Etapa] → verificar: [verificação]
+3. [Etapa] → verificar: [verificação]
 ```
 
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+Critérios de sucesso fortes permitem que você itere de forma autônoma. Critérios fracos ("faça funcionar") exigem esclarecimento constante.
 
 ---
 
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+**Estas diretrizes estão funcionando se:** houver menos alterações desnecessárias nos diffs, menos reescritas por supercomplicação, e perguntas de esclarecimento surgirem antes da implementação em vez de após os erros.
