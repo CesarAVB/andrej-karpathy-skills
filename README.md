@@ -102,7 +102,7 @@ Critérios de sucesso fortes permitem que o LLM itere de forma autônoma. Crité
 
 Dentro do Claude Code, primeiro adicione o marketplace:
 ```
-/plugin marketplace add forrestchang/andrej-karpathy-skills
+/plugin marketplace add CesarAVB/andrej-karpathy-skills
 ```
 
 Depois instale o plugin:
@@ -116,13 +116,13 @@ Isso instala as diretrizes como um plugin do Claude Code, tornando a habilidade 
 
 Novo projeto:
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
+curl -o CLAUDE.md https://raw.githubusercontent.com/CesarAVB/andrej-karpathy-skills/main/CLAUDE.md
 ```
 
 Projeto existente (adicionar ao final):
 ```bash
 echo "" >> CLAUDE.md
-curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
+curl https://raw.githubusercontent.com/CesarAVB/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
 ```
 
 ## Uso com Cursor
